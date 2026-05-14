@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skyscraper 2026 · Brawlers Summer Meet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --orange: #E8540A;
+    --orange-dark: #B83F05;
+    --orange-glow: rgba(232,84,10,0.18);
+    --navy: #0D1220;
+    --navy-mid: #121827;
+    --navy-light: #1A2235;
+    --navy-card: #162030;
+    --white: #F0EDE6;
+    --muted: #8899AA;
+    --wave-blue: #1A3A5C;
+    --accent-teal: #1E7A8C;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* WAVE PATTERN */
+  .wave-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='60'%3E%3Cpath d='M0 30 C20 10, 40 10, 60 30 S100 50, 120 30' fill='none' stroke='%234A90C4' stroke-width='2'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(13,18,32,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(232,84,10,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5vw;
+    height: 60px;
+  }
+
+  nav .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.12em;
+    color: var(--orange);
+  }
+
+  nav .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  nav .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav .nav-links a:hover { color: var(--orange); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 80px 5vw 60px;
+  }
+
+  .hero-wave-art {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .hero-wave-art svg {
+    position: absolute;
+    bottom: -10%;
+    left: 0;
+    width: 100%;
+    height: 70%;
+    opacity: 0.12;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(232,84,10,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    max-width: 1100px;
+    animation: fadeUp 1s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.4em;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 1s ease 0.1s both;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 18vw, 14rem);
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    text-shadow: 0 0 80px rgba(232,84,10,0.3);
+    animation: fadeUp 1s ease 0.15s both;
+  }
+
+  .hero-title .year {
+    color: var(--orange);
+    display: block;
+  }
+
+  .hero-subtitle {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    letter-spacing: 0.35em;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+
+  .hero-divider {
+    width: 80px;
+    height: 2px;
+    background: var(--orange);
+    margin: 2rem auto;
+    animation: fadeUp 1s ease 0.25s both;
+  }
+
+  .hero-info {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+    animation: fadeUp 1s ease 0.3s both;
+  }
+
+  .hero-info-item {
+    text-align: center;
+  }
+
+  .hero-info-item .label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  .hero-info-item .value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    letter-spacing: 0.1em;
+  }
+
+  .hero-info-item .value span { color: var(--orange); }
+
+  .hero-cta {
+    margin-top: 2.5rem;
+    animation: fadeUp 1s ease 0.35s both;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background: var(--orange);
+    color: var(--navy);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+
+  .btn-primary:hover {
+    background: #ff6b1a;
+    transform: translateY(-2px);
+  }
+
+  /* POSTER SECTION */
+  .section {
+    position: relative;
+    z-index: 1;
+    padding: 6rem 5vw;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    color: var(--orange);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--orange);
+    opacity: 0.5;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .section-title em {
+    color: var(--orange);
+    font-style: normal;
+  }
+
+  /* POSTER GALLERY */
+  .posters-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .posters-grid.four-up {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .poster-card.tall img {
+    max-height: 700px;
+    width: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .poster-card {
+    background: var(--navy-card);
+    border: 1px solid rgba(232,84,10,0.15);
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+    position: relative;
+  }
+
+  .poster-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(232,84,10,0.5);
+  }
+
+  .poster-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .poster-card .poster-label {
+    padding: 1rem 1.25rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+    margin-top: 3rem;
+  }
+
+  .about-text p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(240,237,230,0.75);
+    margin-bottom: 1.25rem;
+    font-weight: 300;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  .about-text strong {
+    color: var(--orange);
+    font-weight: 600;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: var(--navy-card);
+    border: 1px solid rgba(232,84,10,0.12);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--orange);
+  }
+
+  .stat-card .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    color: var(--orange);
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+
+  .stat-card .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+
+  /* PROGRAM */
+  .program-bg {
+    background: var(--navy-light);
+    border-top: 1px solid rgba(232,84,10,0.12);
+    border-bottom: 1px solid rgba(232,84,10,0.12);
+  }
+
+  .timeline {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 100px;
+    width: 1px;
+    background: rgba(232,84,10,0.2);
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 2rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    align-items: start;
+    transition: background 0.2s;
+  }
+
+  .timeline-item:last-child { border-bottom: none; }
+
+  .timeline-item:hover { background: rgba(232,84,10,0.04); }
+
+  .tl-time {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    color: var(--orange);
+    letter-spacing: 0.05em;
+    padding-top: 2px;
+    text-align: right;
+    padding-right: 2rem;
+  }
+
+  .tl-content {
+    padding-left: 2rem;
+    border-left: none;
+  }
+
+  .tl-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
+  .tl-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* ATTRACTIONS */
+  .attractions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .attr-card {
+    background: var(--navy-card);
+    border: 1px solid rgba(232,84,10,0.1);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .attr-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(232,84,10,0.4);
+  }
+
+  .attr-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .attr-card:hover::after { transform: scaleX(1); }
+
+  .attr-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .attr-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.08em;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+
+  .attr-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .attr-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.2rem 0.75rem;
+    background: rgba(232,84,10,0.12);
+    color: var(--orange);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border: 1px solid rgba(232,84,10,0.3);
+  }
+
+  /* SPONSORS */
+  .sponsors-section {
+    background: var(--navy-mid);
+  }
+
+  .sponsor-tiers {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .sponsor-tier {
+    background: var(--navy-card);
+    border: 1px solid rgba(232,84,10,0.12);
+    padding: 2rem;
+  }
+
+  .sponsor-tier.featured {
+    border-color: var(--orange);
+    position: relative;
+  }
+
+  .sponsor-tier.featured::before {
+    content: 'MAIN SPONSOR';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--orange);
+    color: var(--navy);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    padding: 0.3rem 1rem;
+    font-weight: 700;
+  }
+
+  .tier-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+    color: var(--orange);
+    margin-bottom: 0.25rem;
+  }
+
+  .tier-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .tier-price span {
+    font-size: 1rem;
+    color: var(--muted);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+  }
+
+  .tier-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .tier-features li {
+    font-size: 0.82rem;
+    color: rgba(240,237,230,0.7);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .tier-features li::before {
+    content: '▸';
+    color: var(--orange);
+    font-size: 0.7rem;
+    margin-top: 0.1rem;
+    flex-shrink: 0;
+  }
+
+  /* LOCATION */
+  .location-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-top: 3rem;
+    align-items: start;
+  }
+
+  .location-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .loc-item {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .loc-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(232,84,10,0.1);
+    border: 1px solid rgba(232,84,10,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .loc-text .loc-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+
+  .loc-text .loc-value {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--white);
+    letter-spacing: 0.05em;
+  }
+
+  .map-placeholder {
+    background: var(--navy-card);
+    border: 1px solid rgba(232,84,10,0.15);
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .map-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(232,84,10,0.04) 0%, transparent 60%);
+  }
+
+  .map-placeholder .map-icon { font-size: 3rem; opacity: 0.4; }
+
+  .map-placeholder p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .map-placeholder a {
+    color: var(--orange);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(232,84,10,0.4);
+    padding-bottom: 1px;
+    transition: border-color 0.2s;
+  }
+
+  .map-placeholder a:hover { border-color: var(--orange); }
+
+  /* FREE ENTRY BANNER */
+  .free-banner {
+    background: var(--orange);
+    text-align: center;
+    padding: 3rem 5vw;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .free-banner::before {
+    content: 'FREE ENTRY';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 15vw, 12rem);
+    color: rgba(0,0,0,0.08);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .free-banner .main-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    color: var(--navy);
+    letter-spacing: 0.1em;
+    position: relative;
+    line-height: 1;
+  }
+
+  .free-banner .sub-text {
+    font-size: 0.9rem;
+    color: rgba(13,18,32,0.65);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 0.5rem;
+    position: relative;
+  }
+
+  /* FOOTER */
+  footer {
+    background: #090D18;
+    border-top: 1px solid rgba(232,84,10,0.15);
+    padding: 3rem 5vw;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--orange);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-sub {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 0.2rem;
+  }
+
+  .footer-meta {
+    text-align: right;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    line-height: 2;
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .posters-grid { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+    .sponsor-tiers { grid-template-columns: 1fr; }
+    .location-grid { grid-template-columns: 1fr; }
+    nav .nav-links { display: none; }
+    .timeline::before { left: 80px; }
+    .timeline-item { grid-template-columns: 80px 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .about-stats { grid-template-columns: 1fr; }
+    .hero-info { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wave-bg"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Skyscraper 2026</div>
+  <ul class="nav-links">
+    <li><a href="#about">L'Evento</a></li>
+    <li><a href="#programma">Programma</a></li>
+    <li><a href="#attrazioni">Attrazioni</a></li>
+    <li><a href="#sponsor">Sponsor</a></li>
+    <li><a href="#location">Location</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-wave-art">
+    <svg viewBox="0 0 1440 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 200 C180 80, 360 80, 540 200 S900 320, 1080 200 S1260 80, 1440 200 L1440 400 L0 400Z" fill="#4A90C4" opacity="0.6"/>
+      <path d="M0 240 C200 120, 400 120, 600 240 S1000 360, 1200 240 S1400 120, 1440 200 L1440 400 L0 400Z" fill="#1A3A5C" opacity="0.8"/>
+      <path d="M0 300 C240 180, 480 180, 720 300 S1200 420, 1440 300 L1440 400 L0 400Z" fill="#0D1220"/>
+    </svg>
+  </div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Brawlers MC · Nettuno · Lazio</p>
+    <h1 class="hero-title">
+      SKYSCRAPER<br>
+      <span class="year">2026</span>
+    </h1>
+    <p class="hero-subtitle">Brawlers Summer Meet</p>
+    <div class="hero-divider"></div>
+    <div class="hero-info">
+      <div class="hero-info-item">
+        <span class="label">Data</span>
+        <span class="value"><span>28</span> Giugno 2026</span>
+      </div>
+      <div class="hero-info-item">
+        <span class="label">Orario</span>
+        <span class="value"><span>10:30</span> → Mezzanotte</span>
+      </div>
+      <div class="hero-info-item">
+        <span class="label">Location</span>
+        <span class="value">Piazzale dello <span>Sport</span></span>
+      </div>
+      <div class="hero-info-item">
+        <span class="label">Ingresso</span>
+        <span class="value"><span>Free</span> Entry</span>
+      </div>
+    </div>
+    <div class="hero-cta">
+      <a href="#about" class="btn-primary">Scopri l'Evento</a>
+    </div>
+  </div>
+</section>
+
+<!-- LOCANDINE -->
+<section class="section" id="locandine">
+  <p class="section-label">Visual Identity</p>
+  <h2 class="section-title">Le <em>Locandine</em></h2>
+  <div class="posters-grid reveal">
+    <div class="poster-card">
+      <img src="WhatsApp_Image_2026-05-14_at_22_50_30.jpeg" alt="Skyscraper 2026 – Locandina ufficiale" loading="lazy">
+      <div class="poster-label">Locandina Ufficiale — Brawlers Summer Meet 2026</div>
+    </div>
+    <div class="poster-card">
+      <img src="WhatsApp_Image_2026-05-13_at_11_38_51.jpeg" alt="Skyscraper 2026 – Planimetria aggiornata" loading="lazy">
+      <div class="poster-label">Planimetria Aggiornata — Piazzale dello Sport, Nettuno</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <p class="section-label">Chi Siamo · Cosa Facciamo</p>
+  <h2 class="section-title">Il Primo Grande<br><em>Raduno Estivo</em></h2>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>
+        <strong>Skyscraper 2026</strong> è il primo grande raduno motociclistico estivo del litorale a sud di Roma, ideato dai <strong>Brawlers</strong> in collaborazione con il Comitato di Quartiere Cretarossa e con il patrocinio del Comune di Nettuno.
+      </p>
+      <p>
+        Una giornata intera di musica live, contest, esibizioni acrobatiche e cultura motociclistica — <strong>aperta gratuitamente</strong> alla città. Dalle onde di Hokusai allo skyline del grattacielo di Nettuno: un'identità visiva unica che fonde l'estetica giapponese con l'anima urban della nostra community.
+      </p>
+      <p>
+        L'evento è pensato per crescere: Skyscraper 2026 è la <strong>prima edizione</strong> di un appuntamento destinato a diventare un riferimento annuale del calendario estivo nettunese. Chi entra ora, entra come partner della prima ora.
+      </p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-num">300+</div>
+        <div class="stat-label">Moto Attese</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">13h</div>
+        <div class="stat-label">Durata Evento</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">850</div>
+        <div class="stat-label">MQ Parcheggio</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">FREE</div>
+        <div class="stat-label">Ingresso</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Band Live</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">21</div>
+        <div class="stat-label">Spazi Sponsor</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FREE ENTRY BANNER -->
+<div class="free-banner">
+  <div class="main-text">Ingresso Gratuito · Per Tutti</div>
+  <div class="sub-text">28 Giugno 2026 · Piazzale dello Sport · Nettuno (RM)</div>
+</div>
+
+<!-- PROGRAMMA -->
+<section class="section program-bg" id="programma">
+  <p class="section-label">Scaletta della Giornata</p>
+  <h2 class="section-title">Il <em>Programma</em></h2>
+  <div class="timeline reveal">
+    <div class="timeline-item">
+      <div class="tl-time">10:30</div>
+      <div class="tl-content">
+        <div class="tl-title">Apertura Ufficiale</div>
+        <div class="tl-desc">Arrivo gruppi motociclistici · Apertura stand espositivi, photobooth e aree Test Drive</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">11:30</div>
+      <div class="tl-content">
+        <div class="tl-title">Live: Swing Duo</div>
+        <div class="tl-desc">Set acustico/swing — apertura musicale della giornata</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">12:30</div>
+      <div class="tl-content">
+        <div class="tl-title">Stunt Show — Sessione 1</div>
+        <div class="tl-desc">Spettacolo acrobatico con moto elettriche Talaria · area perimetrata</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">13:30</div>
+      <div class="tl-content">
+        <div class="tl-title">Pranzo & Chill</div>
+        <div class="tl-desc">Musica chill · Test Drive e photobooth continuano · Food & beverage aperti</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">16:00</div>
+      <div class="tl-content">
+        <div class="tl-title">Stunt Show — Sessione 2 + Sound Battle</div>
+        <div class="tl-desc">Seconda sessione acrobatica · inizio contest Sound Battle e misurazioni</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">17:30</div>
+      <div class="tl-content">
+        <div class="tl-title">Live: Asia</div>
+        <div class="tl-desc">Set rock che scalda la serata · Chiusura aree Test Drive alle 18:00</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">19:00</div>
+      <div class="tl-content">
+        <div class="tl-title">Cerimonia di Premiazione</div>
+        <div class="tl-desc">Moto più bella (per segmento) + Premio Sound Battle · sul palco</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">20:00</div>
+      <div class="tl-content">
+        <div class="tl-title">Stunt Show — Chiusura</div>
+        <div class="tl-desc">Sessione finale di stunt acrobatico</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">20:30</div>
+      <div class="tl-content">
+        <div class="tl-title">Live: Doctor Love</div>
+        <div class="tl-desc">Band ospite principale · set serale</div>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-time">22:00</div>
+      <div class="tl-content">
+        <div class="tl-title">DJ Set Conclusivo</div>
+        <div class="tl-desc">Closing DJ set fino a mezzanotte</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ATTRAZIONI -->
+<section class="section" id="attrazioni">
+  <p class="section-label">Cosa Troverai</p>
+  <h2 class="section-title">Le <em>Attrazioni</em></h2>
+  <div class="attractions-grid reveal">
+    <div class="attr-card">
+      <span class="attr-icon">🏍️</span>
+      <div class="attr-title">Stunt Zone</div>
+      <div class="attr-desc">Show acrobatico professionale con moto elettriche Talaria. Tre sessioni nell'arco della giornata in area dedicata e perimetrata.</div>
+      <span class="attr-tag">3 Sessioni</span>
+    </div>
+    <div class="attr-card">
+      <span class="attr-icon">🚦</span>
+      <div class="attr-title">Test Drive</div>
+      <div class="attr-desc">Due aree 9×14 mt per provare le moto dei concessionari partner. Percorso strutturato, turni gestiti, casco obbligatorio.</div>
+      <span class="attr-tag">2 Aree · Tutto il giorno</span>
+    </div>
+    <div class="attr-card">
+      <span class="attr-icon">🔊</span>
+      <div class="attr-title">Sound Battle</div>
+      <div class="attr-desc">Il contest più amato: vince la moto più rumorosa. Misurazione con strumentazione dedicata, classifica trasparente, premiazione sul palco.</div>
+      <span class="attr-tag">Premio Personalizzato</span>
+    </div>
+    <div class="attr-card">
+      <span class="attr-icon">🎵</span>
+      <div class="attr-title">Live Music</div>
+      <div class="attr-desc">Tre band si alternano sul palco 6×4 mt: Swing Duo, Asia e Doctor Love. Poi DJ set fino a mezzanotte.</div>
+      <span class="attr-tag">3 Band + DJ Set</span>
+    </div>
+    <div class="attr-card">
+      <span class="attr-icon">🏆</span>
+      <div class="attr-title">Contest Moto</div>
+      <div class="attr-desc">Categorie moto più bella, custom e vintage. Giuria di esperti del settore, premiazione ufficiale sul palco, trofei e gadget sponsor.</div>
+      <span class="attr-tag">Multipli Premi</span>
+    </div>
+    <div class="attr-card">
+      <span class="attr-icon">📸</span>
+      <div class="attr-title">Photobooth & Media</div>
+      <div class="attr-desc">Area brandizzata per gli scatti dei partecipanti. Fotografa ufficiale Federica Gentile + videomaker Gabriele Costantini per tutta la giornata.</div>
+      <span class="attr-tag">Copertura Professionale</span>
+    </div>
+    <div class="attr-card">
+      <span class="attr-icon">🍕</span>
+      <div class="attr-title">Food & Drink</div>
+      <div class="attr-desc">Max al Portico con pucce e cartocci, The Bench con cocktail e spritz, più food truck nell'area ferro di cavallo.</div>
+      <span class="attr-tag">3 Punti Ristoro</span>
+    </div>
+    <div class="attr-card">
+      <span class="attr-icon">🛒</span>
+      <div class="attr-title">Stand Espositivi</div>
+      <div class="attr-desc">Cinque stand 6×4 mt per brand del settore moto, automotive e custom. Spazio vendita e esposizione nel cuore del piazzale.</div>
+      <span class="attr-tag">5 Stand Disponibili</span>
+    </div>
+  </div>
+</section>
+
+<!-- SPONSOR -->
+<section class="section sponsors-section" id="sponsor">
+  <p class="section-label">Diventa Partner</p>
+  <h2 class="section-title">I Pacchetti<br><em>Sponsor</em></h2>
+  <div class="sponsor-tiers reveal">
+    <div class="sponsor-tier">
+      <div class="tier-name">Pacchetto Sponsor</div>
+      <div class="tier-price">380<span> €</span></div>
+      <ul class="tier-features">
+        <li>Striscione 2 mt lineari nell'area evento</li>
+        <li>Menzione su locandina ufficiale + social</li>
+        <li>Logo sulla maglia ufficiale evento</li>
+        <li>Presenza nel photobooth brandizzato</li>
+        <li>Report fotografico post-evento</li>
+      </ul>
+    </div>
+    <div class="sponsor-tier featured">
+      <div class="tier-name">Espositore 2</div>
+      <div class="tier-price">600<span> €</span></div>
+      <ul class="tier-features">
+        <li>Stand espositivo 6×4 mt (con gazebo)</li>
+        <li>Striscione 2 mt lineari nell'area evento</li>
+        <li>Menzione su locandina + social</li>
+        <li>Logo maglia evento + photobooth</li>
+        <li>Report fotografico post-evento</li>
+        <li>Menzione sociale live durante l'evento</li>
+      </ul>
+    </div>
+    <div class="sponsor-tier">
+      <div class="tier-name">Main — Area Stunt</div>
+      <div class="tier-price">1000<span> €</span></div>
+      <ul class="tier-features">
+        <li>Brandizzazione esclusiva Area Stunt</li>
+        <li>Menzione dedicata dal palco ad ogni sessione</li>
+        <li>Logo prominente in foto e video</li>
+        <li>Spazio espositivo dedicato (opzionale)</li>
+        <li>Menzione su locandina + social</li>
+        <li>Massima visibilità sull'attrazione principale</li>
+      </ul>
+    </div>
+  </div>
+  <p style="margin-top: 2rem; font-size: 0.78rem; color: var(--muted); text-align: center; letter-spacing: 0.1em;">
+    Tutti i pagamenti via bonifico su IBAN Comitato di Quartiere Cretarossa · Fattura regolare rilasciata · Deducibile come spesa pubblicitaria
+  </p>
+</section>
+
+<!-- LOCATION -->
+<section class="section" id="location">
+  <p class="section-label">Dove Siamo</p>
+  <h2 class="section-title">La <em>Location</em></h2>
+  <div class="location-grid reveal">
+    <div class="location-detail">
+      <div class="loc-item">
+        <div class="loc-icon">📍</div>
+        <div class="loc-text">
+          <div class="loc-title">Indirizzo</div>
+          <div class="loc-value">Piazzale dello Sport (Scacciapensieri)<br>Nettuno (RM), 00048</div>
+        </div>
+      </div>
+      <div class="loc-item">
+        <div class="loc-icon">📅</div>
+        <div class="loc-text">
+          <div class="loc-title">Data e Orario</div>
+          <div class="loc-value">Domenica 28 Giugno 2026<br>Ore 10:30 → Mezzanotte</div>
+        </div>
+      </div>
+      <div class="loc-item">
+        <div class="loc-icon">🅿️</div>
+        <div class="loc-text">
+          <div class="loc-title">Parcheggio Moto</div>
+          <div class="loc-value">850 mq dedicati · Oltre 300 moto<br>Gestione turni organizzata</div>
+        </div>
+      </div>
+      <div class="loc-item">
+        <div class="loc-icon">🤝</div>
+        <div class="loc-text">
+          <div class="loc-title">In Collaborazione Con</div>
+          <div class="loc-value">Comitato di Quartiere Cretarossa<br>Con patrocinio Comune di Nettuno</div>
+        </div>
+      </div>
+    </div>
+    <div class="map-placeholder">
+      <span class="map-icon">🗺️</span>
+      <p>Piazzale dello Sport<br>Nettuno (RM)</p>
+      <a href="https://maps.google.com/?q=Piazzale+dello+Sport+Nettuno+Roma" target="_blank">Apri in Google Maps →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Skyscraper 2026</div>
+    <div class="footer-sub">Brawlers Summer Meet · Nettuno (RM)</div>
+  </div>
+  <div class="footer-meta">
+    <div>28 Giugno 2026 · Ore 10:30</div>
+    <div>Piazzale dello Sport, Nettuno</div>
+    <div>Organizzato da Brawlers MC</div>
+    <div style="color: rgba(136,153,170,0.4); font-size: 0.65rem; margin-top: 0.5rem;">In collaborazione con il Comitato di Quartiere Cretarossa</div>
+  </div>
+</footer>
+
+<script>
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
